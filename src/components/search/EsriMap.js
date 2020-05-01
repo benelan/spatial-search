@@ -4,7 +4,7 @@ import { loadModules, setDefaultOptions } from "esri-loader";
 export default class EsriMap extends React.Component {
   state = {
     map: null,
-    view: null
+    view: null,
   };
 
   componentDidMount() {
@@ -16,7 +16,7 @@ export default class EsriMap extends React.Component {
     const that = this;
     loadModules(["esri/Map", "esri/views/MapView"]).then(([Map, MapView]) => {
       that.state.map = new Map({
-        basemap: "dark-gray",
+        basemap: "streets",
       });
 
       that.state.view = new MapView({
@@ -31,10 +31,10 @@ export default class EsriMap extends React.Component {
   render() {
     const mD = {
       width: "100%",
-      height: "500px"
+      height: "500px",
+      borderRadius: "1px",
+      border: "1px solid lightgrey",
     };
-    return (
-      <div id="viewDiv" style={mD}></div>
-    )
+    return <div id="viewDiv" style={mD}></div>;
   }
 }

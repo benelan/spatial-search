@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import SideBar from './components/sidebar/SideBar';
-import Content from './components/content/Content';
+import Routes from './components/main/Routes';
 import { BrowserRouter as Router } from "react-router-dom";
 
 export default () => {
@@ -14,7 +14,7 @@ export default () => {
     <Router>
       <div className="App wrapper">
         <SideBar toggle={toggle} isOpen={isOpen}/>
-        <Content toggle={toggle} isOpen={isOpen}/>
+        <Routes toggle={toggle} isOpen={isOpen}/>
       </div>
     </Router>
   );

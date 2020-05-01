@@ -14,7 +14,7 @@ export default (props) => {
       <Button color="success" onClick={props.toggle}>
         <FontAwesomeIcon icon={faAlignLeft} />
       </Button>
-      <h4 className="center">Esri Spatial Search Sample Project</h4>
+      <h4 className="center">Esri Spatial Search Sample with React</h4>
     </Navbar>
   );
 };

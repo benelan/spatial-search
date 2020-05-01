@@ -14,7 +14,7 @@ export default class List extends React.Component {
 
   render() {
     const lgi = {
-      margin: "5px",
+      marginBottom: "5px",
       height: "200px"
     };
 
@@ -33,7 +33,7 @@ export default class List extends React.Component {
         <VirtualScroll
           itemCount={50}
           height={500}
-          childHeight={200}
+          childHeight={205}
           Item={Item}
         />
       </ListGroup>

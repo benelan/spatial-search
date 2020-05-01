@@ -11,10 +11,6 @@ body {
   background: #E2FBF1;
 }
 
-h4 {
-  color: #1C4E3A;
-}
-
 .center {
   margin: 0;
   position: absolute;
@@ -38,7 +34,7 @@ a:focus {
 .sidebar {
 min-width: 250px;
 max-width: 250px;
-background: #325E4C;
+background: #57A183;
 color: #fff;
 margin-left: -250px;
 transition: all 0.5s;
@@ -51,7 +47,7 @@ transition: .5s;
 
 
 .sidebar-header {
-background: #1C4E3A;
+background: #3B8D6C;
 }
 
 .sidebar-header h3{
@@ -65,17 +61,17 @@ padding: 1em;
 }
 
 .menu-open {
-background: #1C4E3A;
+background: #3B8D6C;
 }
 
 .nav-item:hover {
-  color: #325E4C;
+  color: #57A183;
   background: #fff;
 }
 
 .items-menu {
 color: #fff;
-background: #1C4E3A;
+background: #3B8D6C;
 }
 
 li a.dropdown-toggle::after {
@@ -103,12 +99,12 @@ width: 10px;
 }
 
 .side-menu::-webkit-scrollbar-thumb {
-background: #325E4C; 
+background: #57A183; 
 border-radius: 3px;
 }
 
 .side-menu::-webkit-scrollbar-thumb:hover {
-background: #1C4E3A; 
+background: #3B8D6C; 
 }
 
 /* ---------------------------------------------------
