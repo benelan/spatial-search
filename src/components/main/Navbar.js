@@ -11,10 +11,11 @@ export default (props) => {
       className="navbar shadow-sm p-3 mb-5 bg-white rounded"
       expand="md"
     >
-      <Button color="success" onClick={props.toggle}>
+      <Button size="sm" color="success" onClick={props.toggle}>
         <FontAwesomeIcon icon={faAlignLeft} />
       </Button>
-      <NavbarBrand className="center">Find Nearest Hospital</NavbarBrand>
+      <NavbarBrand className="center d-none d-md-block d-lg-block d-xl-block">Find Nearest Hospitals</NavbarBrand>
+      <NavbarBrand className="center d-block d-sm-block d-md-none">Hospitals</NavbarBrand>
     </Navbar>
   );
 };

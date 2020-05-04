@@ -10,7 +10,7 @@ import {
   Input
 } from "reactstrap";
 
-const ModalExample = (props) => {
+const Options = (props) => {
   const { buttonLabel, options} = props;
 
   const [modal, setModal] = useState(false);
@@ -80,4 +80,4 @@ const ModalExample = (props) => {
   );
 };
 
-export default ModalExample;
+export default Options;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import EsriMap from "./EsriMap";
 import List from "./List";
 import Options from "./Options";
@@ -20,7 +20,6 @@ export default class Search extends React.Component {
   }
 
   handleOptionsChange(o) {
-    console.log(o);
     this.setState({ options: o });
   }
 
