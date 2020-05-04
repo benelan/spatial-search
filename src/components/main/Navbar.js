@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlignLeft } from "@fortawesome/free-solid-svg-icons";
-import { Navbar, Button } from "reactstrap";
+import { Navbar, NavbarBrand, Button } from "reactstrap";
 
 export default (props) => {
   return (
@@ -14,7 +14,7 @@ export default (props) => {
       <Button color="success" onClick={props.toggle}>
         <FontAwesomeIcon icon={faAlignLeft} />
       </Button>
-      <h4 className="center">Esri Spatial Search Sample with React</h4>
+      <NavbarBrand className="center">Find Nearest Hospital</NavbarBrand>
     </Navbar>
   );
 };
