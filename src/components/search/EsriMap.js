@@ -107,8 +107,8 @@ export default class EsriMap extends React.Component {
             type: "simple-marker",
             path:
               "M15.999 0C11.214 0 8 1.805 8 6.5v17l7.999 8.5L24 23.5v-17C24 1.805 20.786 0 15.999 0zM16 14.402A4.4 4.4 0 0 1 11.601 10a4.4 4.4 0 1 1 8.798 0A4.4 4.4 0 0 1 16 14.402z",
-            color: "#0079C1",
-            size: "15px",
+            color: "#9900ff",
+            size: "16px",
           };
 
           features.forEach((feature) => {
