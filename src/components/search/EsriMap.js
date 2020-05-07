@@ -90,8 +90,15 @@ export default class EsriMap extends React.Component {
               layer.queryExtent(query).then(function(results){
                 that.state.view.goTo(results.extent);  // go to the extent of the results satisfying the query
               });
-              displayLocations(results.features);
-              that.props.onResultsChange(results.features);
+              let res = []
+              results.features.forEach((feature) => {
+              const dist = geometryEngine.distance(loc, feature.geometry, that.props.options.units)
+              feature.attributes.dist = dist;
+              res.push(feature);
+              })
+              res.sort((a, b) => (a.attributes.dist > b.attributes.dist) ? 1 : -1)
+              displayLocations(res);
+              that.props.onResultsChange(res);
               
             } else {
               console.log("no results returned from query");
@@ -118,7 +125,7 @@ export default class EsriMap extends React.Component {
             });
             graphic.popupTemplate = {
               title: feature.attributes.NAME,
-              content: "Add more info here",
+              content: Math.round((feature.attributes.dist + Number.EPSILON) * 100) / 100 + " " + that.props.options.units,
             };
             graphicsLayer.add(graphic);
           });

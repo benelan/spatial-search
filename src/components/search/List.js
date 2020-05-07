@@ -26,9 +26,7 @@ export default class List extends React.Component {
         <ListGroupItemText>
           FIPS: {this.props.results[index].attributes.STCTYFIPS}
           <br></br>
-          x: {this.props.results[index].geometry.x}
-          <br></br>
-          y: {this.props.results[index].geometry.y}
+          Distance: {Math.round((this.props.results[index].attributes.dist + Number.EPSILON) * 100) / 100} {this.props.options.units}
         </ListGroupItemText>
       </ListGroupItem>
     ));

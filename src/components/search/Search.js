@@ -48,7 +48,7 @@ export default class Search extends React.Component {
             />
           </Col>
           <Col md={4}>
-            <List results={this.state.results} />
+            <List results={this.state.results} options={this.state.options}/>
           </Col>
         </Row>
       </div>
