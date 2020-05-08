@@ -1,5 +1,7 @@
 import React, { memo } from "react";
 import {
+  Row,
+  Col,
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
@@ -16,27 +18,39 @@ export default class List extends React.Component {
     };
 
     const Item = memo(({ index }) => (
-      <ListGroupItem style={lgi} tag="button" action onClick={()=>{this.props.onSelection(this.props.results[index].geometry)}}>
+      <ListGroupItem
+        style={lgi}
+        tag="button"
+        action
+        onClick={() => {
+          this.props.onSelection(this.props.results[index]);
+        }}
+      >
         <ListGroupItemHeading>
           {this.props.results[index].attributes.NAME}
         </ListGroupItemHeading>
         <ListGroupItemText>
-          FIPS: {this.props.results[index].attributes.STCTYFIPS}
-          <br></br>
-          Distance:{" "}
-          {Math.round(
-            (this.props.results[index].attributes.dist + Number.EPSILON) * 100
-          ) / 100}{" "}
-          {this.props.options.units}
-          <br></br>
-          <Button
-            style={{ marginTop: "10px" }}
-            color="success"
-            onClick={() => {
-              const url = `https://www.google.com/maps/search/?api=1&query=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}`;
-              window.open(url, "_blank");
-            }}
-          >Directions</Button>
+          <Row>
+            <Col md={8}>
+              <Button
+                style={{ marginTop: "10px" }}
+                color="success"
+                onClick={() => {
+                  const url = `https://www.google.com/maps/search/?api=1&query=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}`;
+                  window.open(url, "_blank");
+                }}
+              >
+                Directions
+              </Button>
+            </Col>
+            <Col md={4} className="float-right">
+                {Math.round(
+                  (this.props.results[index].attributes.dist + Number.EPSILON) *
+                    100
+                ) / 100}{" "}
+                {this.props.options.units}
+            </Col>
+          </Row>
         </ListGroupItemText>
       </ListGroupItem>
     ));

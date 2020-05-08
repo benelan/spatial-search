@@ -38,7 +38,6 @@ export default class Search extends React.Component {
 
   handleSelection(s) {
     this.setState({ selected: s });
-    console.log(this.state.selected)
   }
 
   render() {
@@ -61,8 +60,8 @@ export default class Search extends React.Component {
           <Col md={4}>
             {this.state.searched ? (
               <React.Fragment>
-                There is a total of {this.state.results.length} hospitals within{" "}
-                {this.state.options.radius} {this.state.options.units}.
+                There is a total of <b>{this.state.results.length}</b> hospitals within{" "}
+                <b>{this.state.options.radius} {this.state.options.units}</b>.
               </React.Fragment>
             ) : (
               "Search a location to find the nearest hositals."
