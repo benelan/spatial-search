@@ -35,9 +35,9 @@ const Options = (props) => {
             <Label for="radiusSelect">Radius</Label>
             
             <Input type="select" name="select" id="radiusSelect" 
-                defaultValue={props.options.radius}
+                defaultValue={options.radius}
                 onChange={e => {
-                    let o = props.options;
+                    let o = options;
                     o.radius = e.target.value;
                     setOptions(o)
                     }
@@ -53,9 +53,9 @@ const Options = (props) => {
             <Label for="unitsSelect">Units</Label>
             
             <Input type="select" name="select" id="unitsSelect" 
-                defaultValue={props.options.units}
+                defaultValue={options.units}
                 onChange={e => {
-                    let o = props.options;
+                    let o =options;
                     o.units = e.target.value;
                     setOptions(o)
                     }

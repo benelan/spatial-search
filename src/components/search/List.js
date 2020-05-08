@@ -4,14 +4,11 @@ import {
   ListGroupItem,
   ListGroupItemHeading,
   ListGroupItemText,
+  Button,
 } from "reactstrap";
 import VirtualScroll from "./VirtualScroll";
 
 export default class List extends React.Component {
-  state = {};
-
-  componentDidMount() {}
-
   render() {
     const lgi = {
       marginBottom: "5px",
@@ -26,7 +23,20 @@ export default class List extends React.Component {
         <ListGroupItemText>
           FIPS: {this.props.results[index].attributes.STCTYFIPS}
           <br></br>
-          Distance: {Math.round((this.props.results[index].attributes.dist + Number.EPSILON) * 100) / 100} {this.props.options.units}
+          Distance:{" "}
+          {Math.round(
+            (this.props.results[index].attributes.dist + Number.EPSILON) * 100
+          ) / 100}{" "}
+          {this.props.options.units}
+          <br></br>
+          <Button
+            style={{ marginTop: "10px" }}
+            color="success"
+            onClick={() => {
+              const url = `https://www.google.com/maps/search/?api=1&query=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}`;
+              window.open(url, "_blank");
+            }}
+          >Directions</Button>
         </ListGroupItemText>
       </ListGroupItem>
     ));
@@ -35,7 +45,7 @@ export default class List extends React.Component {
       <ListGroup>
         <VirtualScroll
           itemCount={this.props.results.length}
-          height={500}
+          height={this.props.h}
           childHeight={205}
           Item={Item}
         />

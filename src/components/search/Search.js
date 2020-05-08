@@ -12,15 +12,21 @@ export default class Search extends React.Component {
     this.state = {
       options: {
         radius: 5,
-        units: 'miles',
+        units: "miles",
         // add more options
       },
       results: [],
+      height: 0,
     };
   }
 
+  componentDidMount() {
+    const height = this.divElement.clientHeight;
+    this.setState({ height });
+  }
+
   handleOptionsChange(o) {
-    this.setState({ options: o });
+    this.setState({ options: o, results: [] });
   }
 
   handleResultsChange(r) {
@@ -29,26 +35,46 @@ export default class Search extends React.Component {
 
   render() {
     return (
-      <div>
+      <div
+      style={{height: '70vh'}}
+        ref={(divElement) => {
+          this.divElement = divElement;
+        }}
+      >
         <Row>
           <Col md={8}>
             <Options
               buttonLabel="Refine Search"
               options={this.state.options}
+              results={this.state.results}
               onOptionsChange={this.handleOptionsChange}
             />
           </Col>
-          <Col md={4}></Col>
+          <Col md={4}>
+            {this.state.results.length > 0 ? (
+              <React.Fragment>
+                There is a total of {this.state.results.length} hospitals within{" "}
+                {this.state.options.radius} {this.state.options.units}.
+              </React.Fragment>
+            ) : (
+              ""
+            )}
+          </Col>
         </Row>
         <Row>
           <Col md={8}>
             <EsriMap
               options={this.state.options}
               onResultsChange={this.handleResultsChange}
+              h={this.state.height}
             />
           </Col>
           <Col md={4}>
-            <List results={this.state.results} options={this.state.options}/>
+            <List
+              results={this.state.results}
+              options={this.state.options}
+              h={this.state.height}
+            />
           </Col>
         </Row>
       </div>

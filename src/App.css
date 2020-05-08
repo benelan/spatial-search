@@ -1,14 +1,16 @@
 .App {
   display: flex;
   width: 100%;
+  height: 100vh;
   align-items: stretch;
 }
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
-body {
+html, body {
   font-family: 'Poppins', sans-serif;
   background: #E2FBF1;
+  height: 100vh;
 }
 
 .center {
@@ -113,7 +115,7 @@ background: #3B8D6C;
 .content {
 padding: 20px;
 margin-left: 0;
-height: 100vh;
+height:100vh;
 }
 
 @media only screen and (max-width: 500px) {

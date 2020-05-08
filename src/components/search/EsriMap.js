@@ -137,7 +137,7 @@ export default class EsriMap extends React.Component {
   render() {
     const mD = {
       width: "100%",
-      height: "500px",
+      height: this.props.h,
       borderRadius: "1px",
       border: "1px solid lightgrey",
     };
