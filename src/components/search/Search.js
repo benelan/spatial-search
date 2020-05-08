@@ -17,6 +17,7 @@ export default class Search extends React.Component {
       },
       results: [],
       height: 0,
+      searched: false
     };
   }
 
@@ -30,7 +31,7 @@ export default class Search extends React.Component {
   }
 
   handleResultsChange(r) {
-    this.setState({ results: r });
+    this.setState({ results: r, searched: true });
   }
 
   render() {
@@ -51,13 +52,13 @@ export default class Search extends React.Component {
             />
           </Col>
           <Col md={4}>
-            {this.state.results.length > 0 ? (
+            {this.state.searched ? (
               <React.Fragment>
                 There is a total of {this.state.results.length} hospitals within{" "}
                 {this.state.options.radius} {this.state.options.units}.
               </React.Fragment>
             ) : (
-              ""
+              "Search a location to find the nearest hositals."
             )}
           </Col>
         </Row>

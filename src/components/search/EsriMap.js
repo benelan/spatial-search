@@ -101,7 +101,8 @@ export default class EsriMap extends React.Component {
               that.props.onResultsChange(res);
               
             } else {
-              console.log("no results returned from query");
+              that.props.onResultsChange([]);
+              that.state.view.goTo({target:loc, zoom: 10})
             }
           });
         }
