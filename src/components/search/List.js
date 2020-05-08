@@ -16,7 +16,7 @@ export default class List extends React.Component {
     };
 
     const Item = memo(({ index }) => (
-      <ListGroupItem style={lgi} tag="button" action>
+      <ListGroupItem style={lgi} tag="button" action onClick={()=>{this.props.onSelection(this.props.results[index].geometry)}}>
         <ListGroupItemHeading>
           {this.props.results[index].attributes.NAME}
         </ListGroupItemHeading>

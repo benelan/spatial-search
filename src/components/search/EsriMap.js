@@ -13,6 +13,15 @@ export default class EsriMap extends React.Component {
     this.loadMap();
   }
 
+  componentDidUpdate(nextProps) {
+    const { selected } = this.props;
+    if (nextProps.selected !== selected) {
+      if (selected) {
+        this.state.view.goTo({target: selected, zoom: 15});
+      }
+    }
+  }
+
   loadMap() {
     const that = this;
     loadModules([
@@ -23,6 +32,7 @@ export default class EsriMap extends React.Component {
       "esri/Graphic",
       "esri/geometry/geometryEngine",
       "esri/widgets/Search",
+      "esri/geometry/Polyline",
     ]).then(
       ([
         MapView,
@@ -32,6 +42,7 @@ export default class EsriMap extends React.Component {
         Graphic,
         geometryEngine,
         Search,
+        Polyline,
       ]) => {
         const graphicsLayer = new GraphicsLayer();
 
@@ -87,24 +98,46 @@ export default class EsriMap extends React.Component {
           query.geometry = loc;
           layer.queryFeatures(query).then((results) => {
             if (results.features.length) {
-              layer.queryExtent(query).then(function(results){
-                that.state.view.goTo(results.extent);  // go to the extent of the results satisfying the query
+              layer.queryExtent(query).then(function (results) {
+                that.state.view.goTo(results.extent); // go to the extent of the results satisfying the query
               });
-              let res = []
+              let res = [];
               results.features.forEach((feature) => {
-              const dist = geometryEngine.distance(loc, feature.geometry, that.props.options.units)
-              feature.attributes.dist = dist;
-              res.push(feature);
-              })
-              res.sort((a, b) => (a.attributes.dist > b.attributes.dist) ? 1 : -1)
+                const dist = getDistance(loc, feature.geometry);
+
+                feature.attributes.dist = dist;
+                res.push(feature);
+              });
+              res.sort((a, b) =>
+                a.attributes.dist > b.attributes.dist ? 1 : -1
+              );
               displayLocations(res);
               that.props.onResultsChange(res);
-              
             } else {
               that.props.onResultsChange([]);
-              that.state.view.goTo({target:loc, zoom: 10})
+              that.state.view.goTo({ target: loc, zoom: 10 });
             }
           });
+        }
+
+        /***
+         * To calculate distance between two points using geodesic length
+         * Need to create a polyline between the two points, then calculate
+         * The geodesic lenght of the polyline
+         ***/
+        function getDistance(searchPoint, facilityLocation) {
+          var polyline = new Polyline({
+            paths: [
+              [searchPoint.longitude, searchPoint.latitude],
+              [facilityLocation.longitude, facilityLocation.latitude],
+            ],
+            spatialReference: { wkid: 4326 },
+          });
+
+          return geometryEngine.geodesicLength(
+            polyline,
+            that.props.options.units
+          );
         }
 
         function displayLocations(features) {
@@ -126,7 +159,11 @@ export default class EsriMap extends React.Component {
             });
             graphic.popupTemplate = {
               title: feature.attributes.NAME,
-              content: Math.round((feature.attributes.dist + Number.EPSILON) * 100) / 100 + " " + that.props.options.units,
+              content:
+                Math.round((feature.attributes.dist + Number.EPSILON) * 100) /
+                  100 +
+                " " +
+                that.props.options.units,
             };
             graphicsLayer.add(graphic);
           });

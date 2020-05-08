@@ -9,6 +9,7 @@ export default class Search extends React.Component {
     super(props);
     this.handleOptionsChange = this.handleOptionsChange.bind(this);
     this.handleResultsChange = this.handleResultsChange.bind(this);
+    this.handleSelection = this.handleSelection.bind(this);
     this.state = {
       options: {
         radius: 5,
@@ -17,7 +18,8 @@ export default class Search extends React.Component {
       },
       results: [],
       height: 0,
-      searched: false
+      searched: false,
+      selected: {}
     };
   }
 
@@ -27,11 +29,16 @@ export default class Search extends React.Component {
   }
 
   handleOptionsChange(o) {
-    this.setState({ options: o, results: [] });
+    this.setState({ options: o, results: [], searched: false });
   }
 
   handleResultsChange(r) {
     this.setState({ results: r, searched: true });
+  }
+
+  handleSelection(s) {
+    this.setState({ selected: s });
+    console.log(this.state.selected)
   }
 
   render() {
@@ -68,6 +75,7 @@ export default class Search extends React.Component {
               options={this.state.options}
               onResultsChange={this.handleResultsChange}
               h={this.state.height}
+              selected={this.state.selected}
             />
           </Col>
           <Col md={4}>
@@ -75,6 +83,7 @@ export default class Search extends React.Component {
               results={this.state.results}
               options={this.state.options}
               h={this.state.height}
+              onSelection={this.handleSelection}
             />
           </Col>
         </Row>
