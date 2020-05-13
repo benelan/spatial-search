@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 
 const Options = (props) => {
+  // this component is for changing the Search options
   const { buttonLabel, options} = props;
 
   const [modal, setModal] = useState(false);

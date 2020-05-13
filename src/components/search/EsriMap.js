@@ -7,42 +7,52 @@ export default class EsriMap extends React.Component {
     search: null,
     graphicsLayer: null,
     graphicsLayerView: null,
-    //highlight: null,
+    highlight: null,
   };
 
   componentDidMount() {
+    // load js api css and map
     setDefaultOptions({ css: true });
     this.loadMap();
   }
 
   componentDidUpdate(nextProps) {
+    // this section is for zooming to and selecting a point
+    // when the corresponding feature is clicked in the List component
     const { selected } = this.props;
 
     if (nextProps.selected !== selected) {
       if (selected) {
-        this.state.view.goTo({ target: selected.geometry, zoom: 15 });
+        this.state.view.goTo({ target: selected.geometry, zoom: 15 }); // go to feature
 
         // highlight code below not working.
         // It isn't clearing the previous highlighted points.
         // possible because highlight is a state?
 
-        // if (this.state.highlight) {
-        //   this.state.highlight.remove();
-        //   console.log(1)
-        //   this.setState({ highlight: null });
-        // }
-        // let sg = this.state.graphicsLayer.graphics.items.filter(function (g) {
-        //   return g.geometry === selected.geometry;
-        // });
-        // if (sg.length > 0) {
-        // this.state.graphicsLayerView.highlight(sg[0]);
-        // this.setState({highlight: this.state.graphicsLayerView.highlight(sg[0])})
-        // }
+        // if a feature is already highlighted
+        // remove it
+        if (this.state.highlight) {
+          this.state.highlight.remove(); // this part is not actually removing the highlight
+          this.setState({ highlight: null });
+        }
+
+        // find the feature that was clicked on based on the geometry
+        // could cause issues if there are two hospitals in the exact same spot
+        // for some reason the attributes weren't showing up so I couldn't use OBJECTID
+        // Need to look into this more if I get highlighting to work
+        let sg = this.state.graphicsLayer.graphics.items.filter(function (g) {
+          return g.geometry === selected.geometry;
+        });
+        if (sg.length > 0) {
+          this.state.graphicsLayerView.highlight(sg[0]);
+          //this.setState({highlight: this.state.graphicsLayerView.highlight(sg[0])})
+        }
       }
     }
   }
 
   loadMap() {
+    // this is not accessible inside of the load module function
     const that = this;
     loadModules([
       "esri/views/MapView",
@@ -64,19 +74,23 @@ export default class EsriMap extends React.Component {
         Search,
         Polyline,
       ]) => {
+        // init graphics layer
         that.state.graphicsLayer = new GraphicsLayer();
 
+        // init feature layer
         const facilitiesLayer = new FeatureLayer({
           url:
             "https://services.arcgis.com/Wl7Y1m92PbjtJs5n/ArcGIS/rest/services/hospitalTestData/FeatureServer/0",
           outFields: ["*"],
         });
 
+        // init map
         that.state.map = new EsriMap({
           basemap: "streets",
           layers: [that.state.graphicsLayer],
         });
 
+        // init view
         that.state.view = new MapView({
           container: "viewDiv",
           map: that.state.map,
@@ -84,6 +98,7 @@ export default class EsriMap extends React.Component {
           zoom: 10,
         });
 
+        // init search widget
         that.state.search = new Search({
           view: that.state.view,
           popupEnabled: false,
@@ -94,20 +109,24 @@ export default class EsriMap extends React.Component {
           return;
         };
 
+        // when the view is finished loading
         that.state.view.when(() => {
+          // add the search widget
           that.state.view.ui.add(that.state.search, {
             position: "top-right",
             index: 2,
           });
+
           // run query after search completes
           // use search result location as the query center location
           that.state.search.on("search-complete", (event) =>
+            // pass the search results location and the feature layer to query
             findFacilities(
               event.results[0].results[0].feature.geometry,
               facilitiesLayer
             )
           );
-
+          // creating layerview for highlighting
           that.state.view
             .whenLayerView(that.state.graphicsLayer)
             .then((layerView) => {
@@ -115,32 +134,41 @@ export default class EsriMap extends React.Component {
             });
         });
 
-        // query nearby facilities within a certain radious
+        // query nearby facilities within a certain radius
         function findFacilities(loc, layer) {
           const query = layer.createQuery();
-          query.returnGeometry = true;
-          query.distance = that.props.options.radius;
-          query.units = that.props.options.units;
-          query.outFields = ["*"];
-          query.geometry = loc;
+          query.returnGeometry = true; // return feature geometries
+          query.distance = that.props.options.radius; // chosen in the Options component
+          query.units = that.props.options.units; // chosen in the Options component
+          query.outFields = ["*"]; // return all feature attributes
+          query.geometry = loc; // query within a radius of the search location
           layer.queryFeatures(query).then((results) => {
+            // if there are hospitals in the radius
             if (results.features.length) {
               layer.queryExtent(query).then(function (results) {
-                that.state.view.goTo(results.extent); // go to the extent of the results satisfying the query
+                // go to the extent of the results satisfying the query
+                that.state.view.goTo(results.extent);
               });
+              // init res array used for sorting by closest distance to search location
               let res = [];
+              // for each feature in the results
               results.features.forEach((feature) => {
+                // calculate the distance between the feature and the search location
                 const dist = getDistance(loc, feature.geometry);
-
+                // add the dist as a new attribute in the res array
                 feature.attributes.dist = dist;
                 res.push(feature);
               });
+              // sort the res array by dist
               res.sort((a, b) =>
                 a.attributes.dist > b.attributes.dist ? 1 : -1
               );
+              // populate map with the results
               displayLocations(res);
+              // change the Search component's 'results' state so that the List component populates
               that.props.onResultsChange(res);
             } else {
+              // if there are no results, set the results to nothing and zoom to the search location
               that.props.onResultsChange([]);
               that.state.view.goTo({ target: loc, zoom: 10 });
             }
@@ -168,16 +196,17 @@ export default class EsriMap extends React.Component {
         }
 
         function displayLocations(features) {
-          //clear existing graphics first
+          // clear existing graphics first
           that.state.graphicsLayer.removeAll();
 
           // var symbol = {
           //   type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-          //   url: ,
+          //   url: 'place.com/thing.jpg',
           //   width: "64px",
           //   height: "64px"
           // };
 
+          // create a marker using svg path
           const facilitySymbol = {
             type: "simple-marker",
             path:
@@ -187,11 +216,14 @@ export default class EsriMap extends React.Component {
             size: "16px",
           };
 
+          // for each feature being added to the map
           features.forEach((feature) => {
+            // create a graphic
             const graphic = new Graphic({
               geometry: feature.geometry,
               symbol: facilitySymbol,
             });
+            // and add a popup
             graphic.popupTemplate = {
               title: feature.attributes.NAME,
               content:
@@ -200,6 +232,7 @@ export default class EsriMap extends React.Component {
                 " " +
                 that.props.options.units,
             };
+            // then add the graphic to the graphics layer
             that.state.graphicsLayer.add(graphic);
           });
         }

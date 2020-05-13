@@ -7,6 +7,8 @@ import { Row, Col } from "reactstrap";
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
+    // lifted state to Search component
+    // pass functions down to children as props to modify the state
     this.handleOptionsChange = this.handleOptionsChange.bind(this);
     this.handleResultsChange = this.handleResultsChange.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
@@ -16,27 +18,31 @@ export default class Search extends React.Component {
         units: "miles",
         // add more options
       },
-      results: [],
-      height: 0,
-      searched: false,
-      selected: {}
+      results: [], // the resulting features of the search
+      height: 0, // the height of the map and list components, calculated depending on the size of the browser window
+      searched: false, // should the list be populated
+      selected: {} // which feature was clicked on from the List widget. Zooms to the point on the map, and should highlight if I can get it to work properly
     };
   }
 
   componentDidMount() {
+     // set height depending on how big the window is
     const height = this.divElement.clientHeight;
     this.setState({ height });
   }
 
   handleOptionsChange(o) {
+    // when the options are changed in the 'Refine Search' menu, clear the results and the list
     this.setState({ options: o, results: [], searched: false });
   }
 
   handleResultsChange(r) {
+    // when results are populated from the search, show them in the List
     this.setState({ results: r, searched: true });
   }
 
   handleSelection(s) {
+    // when a feature is clicked on from the List, zoom to it in the map
     this.setState({ selected: s });
   }
 
