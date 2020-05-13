@@ -18,8 +18,8 @@ npm start
 ```
 
 ## TODO
-[ ] Add a 'Details' componenet that appears when clicking on a List Item
-[ ] Finish implementing the feature highlighting when clicking on a List Item
+[] Add a 'Details' componenet that appears when clicking on a List Item
+[] Finish implementing the feature highlighting when clicking on a List Item
 
   
 
