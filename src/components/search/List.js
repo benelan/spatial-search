@@ -11,6 +11,20 @@ import {
 import VirtualScroll from "./VirtualScroll";
 
 export default class List extends React.Component {
+  state = {
+    apple: false,
+  };
+
+  componentDidMount() {
+    if (
+      /* if we're on iOS, open in Apple Maps */
+      navigator.platform.indexOf("iPhone") != -1 ||
+      navigator.platform.indexOf("iPad") != -1 ||
+      navigator.platform.indexOf("iPod") != -1
+    )
+      this.setState({ apple: true });
+  }
+
   render() {
     const lgi = {
       marginBottom: "5px",
@@ -35,26 +49,23 @@ export default class List extends React.Component {
               <Button
                 style={{ marginTop: "10px" }}
                 color="success"
-                onClick={() => {
-                    if /* if we're on iOS, open in Apple Maps */
-                      ((navigator.platform.indexOf("iPhone") != -1) || 
-                       (navigator.platform.indexOf("iPad") != -1) || 
-                       (navigator.platform.indexOf("iPod") != -1))
-                      window.open(`maps://maps.google.com/maps?daddr=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}&amp;ll=`, "_blank");
-                  else {/* else use Google */
-                    window.open(`https://maps.google.com/maps?daddr=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}&amp;ll=`, "_blank");
-                  }
-                }}
+                tag="a"
+                href={
+                  this.state.apple // if it is an apple device
+                    ? `maps://maps.google.com/maps?daddr=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}&amp;ll=`
+                    : // otherwise tell the user they need to search
+                      `https://maps.google.com/maps?daddr=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}&amp;ll=`
+                }
               >
                 Directions
               </Button>
             </Col>
             <Col md={4} className="float-right">
-                {Math.round(
-                  (this.props.results[index].attributes.dist + Number.EPSILON) *
-                    100
-                ) / 100}{" "}
-                {this.props.options.units}
+              {Math.round(
+                (this.props.results[index].attributes.dist + Number.EPSILON) *
+                  100
+              ) / 100}{" "}
+              {this.props.options.units}
             </Col>
           </Row>
         </ListGroupItemText>

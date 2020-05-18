@@ -13,7 +13,7 @@ export default props => (
       <Switch>
         <Route exact path="/" component={Search} />
         <Route exact path="/about" component={About} />
-        <Route exact path="/contact" component={Contact} />              
+        {/* <Route exact path="/contact" component={Contact} />*/}
       </Switch>
     </Container>
 )

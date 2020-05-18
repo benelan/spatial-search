@@ -31,8 +31,8 @@ export default class Search extends React.Component {
       height: 0, // the height of the map and list components, calculated depending on the size of the browser window
       searched: false, // should the list be populated
       selected: {}, // which feature was clicked on from the List widget. Zooms to the point on the map, and should highlight if I can get it to work properly
-      activeTab: "1",
-      mobile: false,
+      activeTab: "1", // the active tab for mobile phones
+      mobile: false, // whether the device is mobile or not (not 100% accurate but if it is wrong the app will still work, just not as nicely on mobile)
     };
   }
 
@@ -68,7 +68,6 @@ export default class Search extends React.Component {
   }
 
   handleSelection(s) {
-    // when a feature is clicked on from the List, zoom to it in the map
     this.setState({ selected: s, activeTab: "1" });
   }
 
@@ -90,7 +89,8 @@ export default class Search extends React.Component {
             />
           </Col>
           <Col md={4}>
-            {this.state.searched ? (
+            {/* If there are results show the total */}
+            {this.state.searched ? ( // if there are results show the total
               <React.Fragment>
                 There is a total of <b>{this.state.results.length}</b> hospitals
                 within{" "}
@@ -100,86 +100,92 @@ export default class Search extends React.Component {
                 .
               </React.Fragment>
             ) : (
-              "Search a location to find the nearest hositals."
+              // otherwise tell the user they need to search
+              "Search a location on the Map to find the nearest hositals."
             )}
           </Col>
         </Row>
-        {this.state.mobile ? (
-       <React.Fragment>
-        <Nav tabs>
-          <NavItem>
-            <NavLink
-              className={classnames({
-                active: this.state.activeTab === "1",
-              })}
-              onClick={() => {
-                this.toggle("1");
-              }}
-            >
-              Map
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({
-                active: this.state.activeTab === "2",
-              })}
-              onClick={() => {
-                this.toggle("2");
-              }}
-            >
-              List
-            </NavLink>
-          </NavItem>
-        </Nav>
-        <TabContent activeTab={this.state.activeTab}>
-          <TabPane tabId="1">
-            <Row>
-              <Col md="12">
-                <EsriMap
-                  options={this.state.options}
-                  onResultsChange={this.handleResultsChange}
-                  h={this.state.height*.8}
-                  selected={this.state.selected}
-                />
-              </Col>
-            </Row>
-          </TabPane>
-          <TabPane tabId="2">
-            <Row>
-              <Col md="12">
-                <List
-                  results={this.state.results}
-                  options={this.state.options}
-                  h={this.state.height*.8}
-                  onSelection={this.handleSelection}
-                />
-              </Col>
-            </Row>
-          </TabPane>
-        </TabContent>
-        </React.Fragment>
+        {this.state.mobile ? ( // if the devie is mobile use tabs to divide the map/list
+          <React.Fragment>
+            <Nav tabs>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "1",
+                  })}
+                  onClick={() => {
+                    this.toggle("1");
+                  }}
+                >
+                  Map
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "2",
+                  })}
+                  onClick={() => {
+                    this.toggle("2");
+                  }}
+                >
+                  List
+                </NavLink>
+              </NavItem>
+            </Nav>
+            <TabContent activeTab={this.state.activeTab}>
+              <TabPane tabId="1">
+                <Row>
+                  <Col md="12">
+                    <EsriMap
+                      options={this.state.options}
+                      onResultsChange={this.handleResultsChange}
+                      h={this.state.height * 0.8}
+                      selected={this.state.selected}
+                    />
+                  </Col>
+                </Row>
+              </TabPane>
+              <TabPane tabId="2">
+                <Row>
+                  <Col md="12">
+                    {this.state.results.length > 0 ? ( // if there are results show the total
+                      <List
+                        results={this.state.results}
+                        options={this.state.options}
+                        h={this.state.height * 0.8}
+                        onSelection={this.handleSelection}
+                      />
+                    ) : (
+                      <div className="center" style={{ marginTop: "100px" }}>
+                        No Results
+                      </div>
+                    )}
+                  </Col>
+                </Row>
+              </TabPane>
+            </TabContent>
+          </React.Fragment>
         ) : (
+          // For non-Mobile devices do not use tabs
           <Row>
-          <Col md={8}>
-            <EsriMap
-              options={this.state.options}
-              onResultsChange={this.handleResultsChange}
-              h={this.state.height}
-              selected={this.state.selected}
-            />
-          </Col>
-          <Col md={4}>
-            <List
-              results={this.state.results}
-              options={this.state.options}
-              h={this.state.height}
-              onSelection={this.handleSelection}
-            />
-          </Col>
-        </Row>
-
-
+            <Col md={8}>
+              <EsriMap
+                options={this.state.options}
+                onResultsChange={this.handleResultsChange}
+                h={this.state.height}
+                selected={this.state.selected}
+              />
+            </Col>
+            <Col md={4}>
+              <List
+                results={this.state.results}
+                options={this.state.options}
+                h={this.state.height}
+                onSelection={this.handleSelection}
+              />
+            </Col>
+          </Row>
         )}
       </div>
     );

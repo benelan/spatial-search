@@ -1,9 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faInfoCircle,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faSearch } from "@fortawesome/free-solid-svg-icons";
 import SubMenu from "./SubMenu";
 import { NavItem, NavLink, Nav } from "reactstrap";
 import classNames from "classnames";
@@ -25,7 +22,13 @@ const SideBar = (props) => (
             Search
           </NavLink>
         </NavItem>
-        <SubMenu title="Info" icon={faInfoCircle} items={submenus[0]} />
+        <NavItem>
+          <NavLink tag={Link} to={"/about"}>
+            <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
+            About
+          </NavLink>
+        </NavItem>
+        {/* <SubMenu title="Info" icon={faInfoCircle} items={submenus[0]} /> */}
       </Nav>
     </div>
   </div>
@@ -40,8 +43,8 @@ const submenus = [
     {
       title: "Contact",
       target: "contact",
-    }
-  ]
+    },
+  ],
 ];
 
 export default SideBar;
