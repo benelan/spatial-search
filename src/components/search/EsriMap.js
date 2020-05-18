@@ -97,7 +97,9 @@ export default class EsriMap extends React.Component {
           map: that.state.map,
           center: [-118.165526, 34.032336],
           zoom: 10,
+          popup: {collapseEnabled: false}
         });
+        
 
         // init search widget
         that.state.search = new Search({
