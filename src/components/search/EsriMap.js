@@ -44,7 +44,8 @@ export default class EsriMap extends React.Component {
           return g.geometry === selected.geometry;
         });
         if (sg.length > 0) {
-          this.state.graphicsLayerView.highlight(sg[0]);
+          // uncomment the lines below to turn on highlighting
+          //this.state.graphicsLayerView.highlight(sg[0]);
           //this.setState({highlight: this.state.graphicsLayerView.highlight(sg[0])})
         }
       }
@@ -224,6 +225,17 @@ export default class EsriMap extends React.Component {
               geometry: feature.geometry,
               symbol: facilitySymbol,
             });
+
+            let url = "";
+            if ( // if we're on iOS, open in Apple Maps
+              navigator.platform.indexOf("iPhone") != -1 ||
+              navigator.platform.indexOf("iPad") != -1 ||
+              navigator.platform.indexOf("iPod") != -1
+            )
+              url = `maps://maps.google.com/maps?daddr=${feature.geometry.latitude},${feature.geometry.longitude}&amp;ll=`;
+            else  // else use Google 
+              url = `https://maps.google.com/maps?daddr=${feature.geometry.latitude},${feature.geometry.longitude}&amp;ll=`;
+
             // and add a popup
             graphic.popupTemplate = {
               title: feature.attributes.NAME,
@@ -231,7 +243,9 @@ export default class EsriMap extends React.Component {
                 Math.round((feature.attributes.dist + Number.EPSILON) * 100) /
                   100 +
                 " " +
-                that.props.options.units,
+                that.props.options.units +
+                "<br><br>" +
+                `<a href=${url} target='_blank'>Directions</a>`,
             };
             // then add the graphic to the graphics layer
             that.state.graphicsLayer.add(graphic);
