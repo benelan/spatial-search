@@ -36,8 +36,14 @@ export default class List extends React.Component {
                 style={{ marginTop: "10px" }}
                 color="success"
                 onClick={() => {
-                  const url = `https://www.google.com/maps/search/?api=1&query=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}`;
-                  window.open(url, "_blank");
+                    if /* if we're on iOS, open in Apple Maps */
+                      ((navigator.platform.indexOf("iPhone") != -1) || 
+                       (navigator.platform.indexOf("iPad") != -1) || 
+                       (navigator.platform.indexOf("iPod") != -1))
+                      window.open(`maps://maps.google.com/maps?daddr=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}&amp;ll=`, "_blank");
+                  else {/* else use Google */
+                    window.open(`https://maps.google.com/maps?daddr=${this.props.results[index].geometry.latitude},${this.props.results[index].geometry.longitude}&amp;ll=`, "_blank");
+                  }
                 }}
               >
                 Directions

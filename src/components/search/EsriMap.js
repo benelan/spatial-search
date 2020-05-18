@@ -86,7 +86,7 @@ export default class EsriMap extends React.Component {
 
         // init map
         that.state.map = new EsriMap({
-          basemap: "streets",
+          basemap: "topo",
           layers: [that.state.graphicsLayer],
         });
 
@@ -211,8 +211,9 @@ export default class EsriMap extends React.Component {
             type: "simple-marker",
             path:
               "M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z",
+            color: "#5cb85c",
             // path: "M15.999 0C11.214 0 8 1.805 8 6.5v17l7.999 8.5L24 23.5v-17C24 1.805 20.786 0 15.999 0zM16 14.402A4.4 4.4 0 0 1 11.601 10a4.4 4.4 0 1 1 8.798 0A4.4 4.4 0 0 1 16 14.402z",
-            color: "#9900ff",
+            //color: "#9900ff",
             size: "16px",
           };
 

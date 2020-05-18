@@ -47,7 +47,7 @@ export default class About extends React.Component {
         <Col md={{ size: 4, offset: 1 }}>
           <h4 className="text-center">About Me</h4>
           <p>
-            I am a Developer Products Support Specialist at Esri with a focus in
+            This app was created by Ben Elan. I am a Developer Products Support Specialist at Esri with a focus in
             web and mobile development.
           </p>
           <Row style={{ marginTop: "50px" }}>
