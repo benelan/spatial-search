@@ -227,27 +227,32 @@ export default class EsriMap extends React.Component {
             });
 
             let url = "";
-            if ( // if we're on iOS, open in Apple Maps
+            console.log(feature);
+            if (
+              // if we're on iOS, open in Apple Maps
               navigator.platform.indexOf("iPhone") != -1 ||
               navigator.platform.indexOf("iPad") != -1 ||
               navigator.platform.indexOf("iPod") != -1
             )
               url = `maps://maps.google.com/maps?daddr=${feature.geometry.latitude},${feature.geometry.longitude}&amp;ll=`;
-            else  // else use Google 
+            // else use Google
+            else
               url = `https://maps.google.com/maps?daddr=${feature.geometry.latitude},${feature.geometry.longitude}&amp;ll=`;
 
             // and add a popup
             graphic.popupTemplate = {
               title: feature.attributes.NAME,
-              content:
-                Math.round((feature.attributes.dist + Number.EPSILON) * 100) /
-                  100 +
-                " " +
-                that.props.options.units +
-                "<br><br>" +
-                `<a href=${url} target='_blank'>Directions</a>`,
+              content: function () {
+                var d =
+                  Math.round((feature.attributes.dist + Number.EPSILON) * 100) /
+                    100 +
+                  " " +
+                  that.props.options.units;
+                var div = document.createElement("div");
+                div.innerHTML = `${d}<br><br><a href=${url} target="_blank">Directions</a>`;
+                return div;
+              },
             };
-            // then add the graphic to the graphics layer
             that.state.graphicsLayer.add(graphic);
           });
         }
