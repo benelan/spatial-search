@@ -266,6 +266,7 @@ export default class EsriMap extends React.Component {
       height: this.props.h,
       borderRadius: "1px",
       border: "1px solid lightgrey",
+      marginBottom: "5px"
     };
     return <div id="viewDiv" style={mD}></div>;
   }
