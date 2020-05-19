@@ -11,15 +11,16 @@ The hospital data used in this project is from the U.S. Geographic Names Informa
 
 ## Using the App
 
-The application is publicly available [here](https://spatialsearch.now.sh/). To run the web app locally, you must have [Node](https://nodejs.org/en/) installed. With Node installed, navigate to the root folder of the app and type:
+The application is publicly available [here](https://spatialsearch.now.sh/). To run the web app locally, you must have [Node](https://nodejs.org/en/) installed. With Node installed, navigate to the project directory and type:
 ```
 npm install
 npm start
 ```
 
 ## TODO
-- [ ] Add a 'Details' componenet that appears when clicking on a List Item
-- [ ] Finish implementing the feature highlighting when clicking on a List Item
+- [ ] Add a Details componenet that appears when clicking on a List Item
+- [ ] Finish implementing the map feature highlighting when clicking on a List Item
+- [ ] Close the Menu after selecting a page
 
   
 
@@ -27,5 +28,4 @@ npm start
 *  [ArcGIS](https://developers.arcgis.com/javascript/) - Spatial Analysis/Visualization 
 *  [React](https://reactjs.org/) - Frontend Framework
 *  [Reactstrap](https://reactstrap.github.io/) - Bootstrap for React
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+*  [Vercel](https://vercel.com/) - Hosting
