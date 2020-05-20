@@ -5,7 +5,7 @@ import {
   faGithubSquare,
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
-import { Nav, Navbar, NavbarBrand, NavLink, Button } from "reactstrap";
+import { Nav, Navbar, NavbarBrand, NavLink, Button, Row } from "reactstrap";
 
 export default (props) => {
   return (
@@ -15,7 +15,12 @@ export default (props) => {
       className="navbar shadow-sm p-3 mb-5 bg-white rounded"
       expand="md"
     >
-      <Button size="sm" color="success" onClick={props.toggle}>
+      <Button
+        size="sm"
+        color="success"
+        onClick={props.toggle}
+        style={{ marginRight: "20px" }}
+      >
         <FontAwesomeIcon icon={faAlignLeft} />
       </Button>
       <NavbarBrand className="center d-none d-md-block d-lg-block d-xl-block">
@@ -25,15 +30,22 @@ export default (props) => {
         Hospitals
       </NavbarBrand>
       <Nav className="mr-auto" navbar />
-      <NavLink
-        style={{ color: "#5cb85c" }}
-        href={"https://www.linkedin.com/in/benelan"}
-      >
-        <FontAwesomeIcon size="2x" icon={faLinkedinIn} />
-      </NavLink>
-      <NavLink href={"https://github.com/benelan"} style={{ color: "#5cb85c" }}>
-        <FontAwesomeIcon size="2x" icon={faGithubSquare} />
-      </NavLink>
+      <Row style={{ margin: "-8px" }}>
+        <NavLink
+          style={{ color: "#5cb85c" }}
+          href={"https://www.linkedin.com/in/benelan"}
+        >
+          <FontAwesomeIcon icon={faLinkedinIn} />
+        </NavLink>
+      </Row>
+      <Row>
+        <NavLink
+          href={"https://github.com/benelan"}
+          style={{ color: "#5cb85c" }}
+        >
+          <FontAwesomeIcon icon={faGithubSquare} />
+        </NavLink>
+      </Row>
     </Navbar>
   );
 };
