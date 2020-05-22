@@ -19,8 +19,8 @@ npm start
 
 ## TODO
 - [ ] Add a Details componenet that appears when clicking on a List Item
-- [ ] Finish implementing the map feature highlighting when clicking on a List Item
-- [ ] Close the Menu after selecting a page
+- [x] Finish implementing the map feature highlighting when clicking on a List Item
+- [x] Close the Menu after selecting a page
 
   
 

@@ -25,10 +25,6 @@ export default class EsriMap extends React.Component {
       if (selected) {
         this.state.view.goTo({ target: selected.geometry, zoom: 15 }); // go to feature
 
-        // highlight code below not working.
-        // It isn't clearing the previous highlighted points.
-        // possible because highlight is a state?
-
         // if a feature is already highlighted
         // remove it
         if (this.state.highlight) {
@@ -39,14 +35,13 @@ export default class EsriMap extends React.Component {
         // find the feature that was clicked on based on the geometry
         // could cause issues if there are two hospitals in the exact same spot
         // for some reason the attributes weren't showing up so I couldn't use OBJECTID
-        // Need to look into this more if I get highlighting to work
         let sg = this.state.graphicsLayer.graphics.items.filter(function (g) {
           return g.geometry === selected.geometry;
         });
         if (sg.length > 0) {
-          // uncomment the lines below to turn on highlighting
-          //this.state.graphicsLayerView.highlight(sg[0]);
-          //this.setState({highlight: this.state.graphicsLayerView.highlight(sg[0])})
+          // highlights the graphic
+          let h = this.state.graphicsLayerView.highlight(sg[0]);
+          this.setState({highlight: h})
         }
       }
     }
@@ -95,8 +90,8 @@ export default class EsriMap extends React.Component {
         that.state.view = new MapView({
           container: "viewDiv",
           map: that.state.map,
-          center: [-118.165526, 34.032336],
-          zoom: 10,
+          zoom: 4,
+          center: [-99, 37],
           popup: {collapseEnabled: false}
         });
         

@@ -17,13 +17,13 @@ const SideBar = (props) => (
     <div className="side-menu">
       <Nav vertical className="list-unstyled pb-3">
         <NavItem>
-          <NavLink tag={Link} to={"/"}>
+          <NavLink tag={Link} to={"/"} onClick={props.toggle}>
             <FontAwesomeIcon icon={faSearch} className="mr-2" />
             Search
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink tag={Link} to={"/about"}>
+          <NavLink tag={Link} to={"/about"} onClick={props.toggle}>
             <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
             About
           </NavLink>
